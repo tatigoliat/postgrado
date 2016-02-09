@@ -97,13 +97,11 @@ class PrestamosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id){
         $model = $this->findModel($id);
 		
 		if ($model->load(Yii::$app->request->post())){			
-			if($model->validate()) {
-				
+			if($model->validate()) {				
 				$model->save();
 				return $this->redirect(['view', 'id' => $model->id]);
 			} else {
@@ -112,7 +110,7 @@ class PrestamosController extends Controller
 				]);
 			}
 		}
-
+	return $this->render('update', ['model' => $model,]);	
     }
 
     /**
@@ -128,24 +126,37 @@ class PrestamosController extends Controller
         return $this->redirect(['index']);
     }
 	
-	public function actionDevolucion($id)
-    {
+	public function actionDevolucion($id){		
         $model = $this->findModel($id);
+				
 		$model->estatus = 4;
 		$model->fecha_entregado = date('Y-m-d');
-        if ($model->load(Yii::$app->request->post()) && $model->update()) {
-			$interval = $model->fecha_devolucion->diff($model->fecha_entregado);
+		if($model->save()) {
+			$fecha_actual = strtotime(date('Y-m-d'));
+			$fecha_entrada = strtotime($model->fecha_devolucion);
 
-				$usuario =Usuarios::findByPk($model->cedula);
-				$usuario->estatus= 2;
-				$usuario->update();				
-				
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('view', [
-                'model' => $model,
-            ]);
-        }
+			if($fecha_actual > $fecha_entrada){
+					$usuario =Usuarios::findOne($model->cedula);
+					$usuario->estatus= 2;
+					$usuario->update();				
+
+					/* Enviar mail. 
+					Yii::$app -> mailer -> compose()
+					-> setFrom('postmaster@localhost')
+					-> setTo('yeralmmf@gmail.com')
+					-> setSubject("Notificacion suspension")
+					-> setTextBody('Esto es una prueba')
+					-> setHtmlBody('<b>Esto es una prueba</b>')
+					-> send();	*/
+			}
+			
+			return $this->render('view', [
+						'model' => $model, 'id' => $model->id
+					]);
+		}
+		
+		
+		return $this->redirect(['view', 'id' => $model->id]);
     }
 
     /**

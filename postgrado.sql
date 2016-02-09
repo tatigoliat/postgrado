@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-02-2016 a las 20:18:01
+-- Tiempo de generación: 09-02-2016 a las 23:28:28
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -28,6 +28,7 @@ USE `postgrado`;
 -- Estructura de tabla para la tabla `departamentos`
 --
 
+DROP TABLE IF EXISTS `departamentos`;
 CREATE TABLE IF NOT EXISTS `departamentos` (
   `id` int(11) NOT NULL,
   `descripcion` varchar(100) NOT NULL
@@ -50,6 +51,7 @@ INSERT INTO `departamentos` (`id`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `prestamos`
 --
 
+DROP TABLE IF EXISTS `prestamos`;
 CREATE TABLE IF NOT EXISTS `prestamos` (
   `id` int(11) NOT NULL,
   `codigo` int(11) NOT NULL,
@@ -58,16 +60,16 @@ CREATE TABLE IF NOT EXISTS `prestamos` (
   `fecha_devolucion` date NOT NULL,
   `estatus` int(11) NOT NULL DEFAULT '3',
   `fecha_entregado` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `prestamos`
 --
 
 INSERT INTO `prestamos` (`id`, `codigo`, `cedula`, `fecha_prestamo`, `fecha_devolucion`, `estatus`, `fecha_entregado`) VALUES
-(1, 1, '19481926A', '2016-02-09', '2016-02-08', 4, '2016-02-08'),
-(2, 1, '19481926', '2016-02-07', '2016-02-08', 3, NULL),
-(11, 2, '19481926', '2016-02-09', '2016-02-12', 3, NULL);
+(1, 1, '19481926A', '2016-02-05', '2016-02-08', 4, '2016-02-09'),
+(11, 2, '19481926', '2016-02-05', '2016-02-08', 3, NULL),
+(12, 1, '19481926A', '2016-02-09', '2016-02-12', 4, '2016-02-09');
 
 -- --------------------------------------------------------
 
@@ -75,6 +77,7 @@ INSERT INTO `prestamos` (`id`, `codigo`, `cedula`, `fecha_prestamo`, `fecha_devo
 -- Estructura de tabla para la tabla `recursos`
 --
 
+DROP TABLE IF EXISTS `recursos`;
 CREATE TABLE IF NOT EXISTS `recursos` (
   `codigo` int(11) NOT NULL,
   `titulo` varchar(500) NOT NULL,
@@ -98,6 +101,7 @@ INSERT INTO `recursos` (`codigo`, `titulo`, `autor`, `tipo_recurso`, `total_exis
 -- Estructura de tabla para la tabla `status`
 --
 
+DROP TABLE IF EXISTS `status`;
 CREATE TABLE IF NOT EXISTS `status` (
   `id` int(11) NOT NULL,
   `descripcion_status` varchar(100) NOT NULL
@@ -119,6 +123,7 @@ INSERT INTO `status` (`id`, `descripcion_status`) VALUES
 -- Estructura de tabla para la tabla `tipo_recursos`
 --
 
+DROP TABLE IF EXISTS `tipo_recursos`;
 CREATE TABLE IF NOT EXISTS `tipo_recursos` (
   `id` int(11) NOT NULL,
   `tipo_recurso` varchar(100) NOT NULL
@@ -139,6 +144,7 @@ INSERT INTO `tipo_recursos` (`id`, `tipo_recurso`) VALUES
 -- Estructura de tabla para la tabla `usuarios`
 --
 
+DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `cedula` varchar(20) NOT NULL,
   `nombre` varchar(100) NOT NULL,
@@ -212,7 +218,7 @@ ALTER TABLE `departamentos`
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
 ALTER TABLE `prestamos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `recursos`
 --

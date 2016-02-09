@@ -103,7 +103,8 @@ class Prestamos extends \yii\db\ActiveRecord
 		}else{
 			$this->addError($atributo, 'Recurso no disponible'); 
 			return false;
-		}
-        					
+		}        					
     }
+	
+	
 }

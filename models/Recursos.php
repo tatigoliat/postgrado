@@ -57,4 +57,5 @@ class Recursos extends \yii\db\ActiveRecord
         return ArrayHelper::map($opciones, 'id', 'tipo_recurso');
     }
 	
+	
 }
