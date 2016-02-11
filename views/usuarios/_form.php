@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 	
-	<?= $form->field($model, 'departamento')->dropDownList($model->ListDepartamento, ['prompt' => 'Seleccione Uno' ]);?>
+	<?= $form->field($model, 'id_departamento')->dropDownList($model->ListDepartamento, ['prompt' => 'Seleccione Uno' ]);?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 

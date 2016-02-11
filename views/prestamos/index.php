@@ -25,35 +25,42 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-			'id',
-			'codigo',
-			'cedula',
-			/*[
-			   'attribute' => 'codigo',
-			   'options' => ['width' => '70']
-			],
+			//'id',
 			[
+			   'attribute' => 'id',
+			   'options' => ['width' => '60']
+			],
+
+			[
+			   'attribute' => 'codigo',
+			   'value'=>'recurso.titulo',
+			],
+			
+			[
+			   'label' => 'Usuario',
 			   'attribute' => 'cedula',
-			   'options' => ['width' => '70']
-			],*/
+			   'value'=>'usuario.nombre',
+			],
 			[
 			   'attribute' => 'fecha_prestamo',
 				'format' =>  ['date', 'php:d/m/Y'],
-			   'options' => ['width' => '70']
+			   'options' => ['width' => '50']
 			],
 			[
 			   'attribute' => 'fecha_devolucion',
 				'format' =>  ['date', 'php:d/m/Y'],
-			   'options' => ['width' => '70']
+			   'options' => ['width' => '50']
 			],
 			[
 			   'attribute' => 'fecha_entregado',
 				'format' =>  ['date', 'php:d/m/Y'],
-			   'options' => ['width' => '70']
+			   'options' => ['width' => '50']
 			],
+
 			[
-			   'attribute' => 'estatus',
-			   'options' => ['width' => '70']
+			   'attribute' => 'id_status',
+			   'value'=>'status.descripcion_status',
+			   'options' => ['width' => '120']
 			],
 			
             //'fecha_prestamo',

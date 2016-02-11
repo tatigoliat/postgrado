@@ -34,6 +34,7 @@ class UsuariosController extends Controller
     public function actionIndex()
     {
         $searchModel = new UsuariosSearch();
+		$searchModel->updateInactivos();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

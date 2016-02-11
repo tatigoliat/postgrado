@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property string $cedula
  * @property string $fecha_prestamo
  * @property string $fecha_devolucion
- * @property integer $estatus
+ * @property integer $id_status
  */
 class Prestamos extends \yii\db\ActiveRecord
 {
@@ -40,8 +40,8 @@ class Prestamos extends \yii\db\ActiveRecord
     {
         return [
             [['codigo', 'cedula', 'fecha_prestamo', 'fecha_devolucion'], 'required'],
-            [['codigo', 'estatus'], 'integer'],
-            [['fecha_prestamo', 'fecha_devolucion'], 'safe'],
+            [['codigo'], 'integer'],
+            [['fecha_prestamo', 'fecha_devolucion', 'id_status'], 'safe'],
             [['cedula'], 'string', 'max' => 20],
 			['cedula', 'existe_usuario_activo'],
 			['codigo', 'esta_disponible']
@@ -55,29 +55,45 @@ class Prestamos extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'codigo' => 'Codigo',
-            'cedula' => 'Cedula',
-            'fecha_prestamo' => 'Fecha Prestamo',
-            'fecha_devolucion' => 'Fecha Devolucion',
-            'estatus' => 'Estatus',
-			'fecha_entregado' => 'Fecha Entregado',
-			
+            'codigo' => 'Recurso ',
+            'cedula' => 'Usuario ',
+            'fecha_prestamo' => 'F. Prestamo',
+            'fecha_devolucion' => 'F. Devolucion',
+            'id_status' => ' Status',
+			'fecha_entregado' => 'F. Entregado',			
         ];
     }
 	
+		public function relations(){
+         return array(
+                    'status' => array(self::BELONGS_TO, 'Status', 'id_status'),
+					'usuarios' => array(self::BELONGS_TO, 'Usuarios', 'cedula'),
+					'recursos' => array(self::BELONGS_TO, 'Prestamos', 'codigo'),
+					);
+	}
+	
 	public function existe_usuario_activo ($atributo, $params){
+		$retorno = false;
 		$usuario = Usuarios::findOne($this->cedula);
 		if ($usuario == null){
 			$this->addError($atributo, 'Usuario no existe');					
-			return false;
+			$retorno = false;
 		}else{
-			if($usuario->estatus != 1 ){			
-				$this->addError($atributo, 'Usuario Suspendido'); 
-				return false;
+			$fechaprestamo = date("Y-m-d");			
+			//$usuario->fecha_suspension = date ( 'Y-m-d' , $usuario->fecha_suspension );
+		
+			if($usuario->id_status == 2 ){				
+				if($fechaprestamo >= $usuario->fecha_suspension){
+					$retorno = true;
+				}else{
+					$this->addError($atributo, 'Usuario Suspendido'); 
+					return false;
+				}				
 			}else{
-				return true;
+				$retorno = true;
 			}
-		}		
+		}
+		return $retorno;		
     }
 	
 	public function esta_disponible($atributo, $params){
@@ -89,7 +105,7 @@ class Prestamos extends \yii\db\ActiveRecord
 			return false;
 		}
 		
-		$prestamos = Prestamos::findBySql("SELECT id FROM prestamos WHERE codigo = " . $this->codigo . " and estatus = 3 ")->all();
+		$prestamos = Prestamos::findBySql("SELECT id FROM prestamos WHERE codigo = " . $this->codigo . " and id_status = 3 ")->all();
 		if($prestamos == null){
 			$numPrestamos = 0;
 		}else{
@@ -106,5 +122,16 @@ class Prestamos extends \yii\db\ActiveRecord
 		}        					
     }
 	
+
+	public function getStatus(){
+		return $this->hasOne(Status::className(),['id' =>'id_status']);
+	}
 	
+	public function getUsuario(){
+		return $this->hasOne(Usuarios::className(),['cedula' =>'cedula']);
+	}
+	
+	public function getRecurso(){
+		return $this->hasOne(Recursos::className(),['codigo' =>'codigo']);
+	}
 }

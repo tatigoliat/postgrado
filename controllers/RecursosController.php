@@ -34,6 +34,7 @@ class RecursosController extends Controller
     public function actionIndex()
     {
         $searchModel = new RecursosSearch();
+		 $searchModel->updateDisponible();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,7 +63,6 @@ class RecursosController extends Controller
     public function actionCreate()
     {
         $model = new Recursos();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->codigo]);
         } else {

@@ -16,13 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Actualizar', ['update', 'id' => $model->codigo], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->codigo], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Esta seguro de eliminar el registro?',
-                'method' => 'post',
-            ],
-        ]) ?>
     </p>
 
     <?= DetailView::widget([
@@ -31,8 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'codigo',
             'titulo',
             'autor',
-            'tipo_recurso',
+			'tipoRecurso.tipo_recurso',
             'total_existente',
+			'total_disponible',
         ],
     ]) ?>
 

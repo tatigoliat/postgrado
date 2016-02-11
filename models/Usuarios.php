@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\models\DepartamentosSearch;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 use app\models\Status;
 /**
@@ -11,7 +12,7 @@ use app\models\Status;
  *
  * @property string $cedula
  * @property string $nombre
- * @property integer $estatus
+ * @property integer $id_status
  * @property integer $departamento
  * @property string $email
  * @property string $fecha_suspension
@@ -32,8 +33,8 @@ class Usuarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cedula','nombre', 'email', 'departamento'], 'required', 'message'=>'Campo requerido'],
-            [['estatus', 'departamento'], 'integer'],
+            [['cedula','nombre', 'email', 'id_departamento'], 'required', 'message'=>'Campo requerido'],
+            [['id_status', 'id_departamento'], 'integer'],
             [['fecha_suspension'], 'safe'],
             [['cedula'], 'string', 'max' => 20],
             [['nombre'], 'string', 'max' => 100],
@@ -51,22 +52,20 @@ class Usuarios extends \yii\db\ActiveRecord
         return [
             'cedula' => 'Cedula',
             'nombre' => 'Nombre',
-            'estatus' => 'Estatus',
-            'departamento' => 'Departamento',
+            'id_status' => 'Status',
+            'id_departamento' => 'Departamento',
             'email' => 'Email',
             'fecha_suspension' => 'Fecha Suspension',
         ];
     }
 	
-	/*public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-                    'FK_rel_departamentos_usuarios' => array(self::BELONGS_TO, 'departamentos', 'id'),
-					'FK_rel_status_usuarios' => array(self::BELONGS_TO, 'status', 'id'),
+	public function relations(){
+         return array(
+                    'departamento' => array(self::BELONGS_TO, 'Departamentos', 'id_departamento'),
+					'status' => array(self::BELONGS_TO, 'Status', 'id_status'),
+					'prestamos' => array(self::HAS_MANY, 'Prestamos', 'cedula'),
 					);
-	}*/
+	}
 	
 	public static function getListDepartamento(){
         $opciones = DepartamentosSearch::find()->asArray()->all();
@@ -94,5 +93,21 @@ class Usuarios extends \yii\db\ActiveRecord
 		}*/
         return false;
     }
+	
+	public function getDepartamento(){
+		return $this->hasOne(Departamentos::className(),['id' =>'id_departamento']);
+	}
+	
+	public function getStatus(){
+		return $this->hasOne(Status::className(),['id' =>'id_status']);
+	}
+	
+	public function updateInactivos(){
+		Yii::$app->db
+				->createCommand('UPDATE usuarios SET id_status=1, fecha_suspension = NULL WHERE id_status = 2 AND fecha_suspension <= CURDATE() ')
+				->execute();
+
+		
+	}
 	
 }

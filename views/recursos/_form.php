@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'autor')->textInput(['maxlength' => true]) ?>
 
-	<?= $form->field($model, 'tipo_recurso')->dropDownList($model->ListTipoRecurso, ['prompt' => 'Seleccione Uno' ]);?>
+	<?= $form->field($model, 'id_tipo_recurso')->dropDownList($model->ListTipoRecurso, ['prompt' => 'Seleccione Uno' ]);?>
 
     <?= $form->field($model, 'total_existente')->textInput() ?>
 

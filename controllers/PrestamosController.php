@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use app\models\Prestamos;
 use app\models\PrestamosSearch;
 use app\models\Usuarios;
+use app\models\Recursos;
 
 /**
  * PrestamosController implements the CRUD actions for Prestamos model.
@@ -69,7 +70,7 @@ class PrestamosController extends Controller
 		$nuevafecha = strtotime ( '+3 day' , strtotime ( $model->fecha_prestamo) ) ;
 		$model->fecha_devolucion  = date ( 'd-m-Y' , $nuevafecha );
 		
-		$model->estatus = 3;
+		$model->id_status = 3;
   
         if ($model->load(Yii::$app->request->post())){			
 			if($model->validate()) {
@@ -129,7 +130,7 @@ class PrestamosController extends Controller
 	public function actionDevolucion($id){		
         $model = $this->findModel($id);
 				
-		$model->estatus = 4;
+		$model->id_status = 4;
 		$model->fecha_entregado = date('Y-m-d');
 		if($model->save()) {
 			$fecha_actual = strtotime(date('Y-m-d'));
@@ -137,24 +138,31 @@ class PrestamosController extends Controller
 
 			if($fecha_actual > $fecha_entrada){
 					$usuario =Usuarios::findOne($model->cedula);
-					$usuario->estatus= 2;
-					$usuario->update();				
+					$usuario->id_status= 2;
+					$usuario->update();		
 
-					/* Enviar mail. 
-					Yii::$app -> mailer -> compose()
-					-> setFrom('postmaster@localhost')
-					-> setTo('yeralmmf@gmail.com')
-					-> setSubject("Notificacion suspension")
-					-> setTextBody('Esto es una prueba')
-					-> setHtmlBody('<b>Esto es una prueba</b>')
-					-> send();	*/
+					$recurso =Recursos::findOne($model->codigo);	
+
+					$fecha = strtotime ( '+5 day' , strtotime ( date('Y-m-d')) ) ;
+					$activacion  = date ( 'd-m-Y' , $fecha );					
+
+					$content = "<p>Estimado usuario " . $usuario->nombre . ",</p>";
+					$content .= "<p>La biblioteca de la institucion le informa que le ha sido suspendido su servicio de prestamo.</p>";
+					$content .= "<p>Motivo: Devolucion retardada del recurso: ". $recurso->titulo  . "</p>";
+					$content .= "<p>Podra volver a utilizar el servicio a partir de la fecha: ". $activacion . "</p>";
+					
+					// Enviar mail.			
+					Yii::$app->mailer->compose("@app/mail/layouts/html", ["content" => $content])					
+							-> setFrom(Yii::$app->params['adminEmail'])
+							-> setTo($usuario->email)
+							-> setSubject("Notificacion suspension")
+							-> setTextBody($content)
+							-> setHtmlBody($content)
+							-> send();	
 			}
 			
-			return $this->render('view', [
-						'model' => $model, 'id' => $model->id
-					]);
-		}
-		
+			return $this->redirect(['view', 'id' => $model->id]);
+		}		
 		
 		return $this->redirect(['view', 'id' => $model->id]);
     }

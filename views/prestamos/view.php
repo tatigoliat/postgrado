@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'cedula',
             'fecha_prestamo',
             'fecha_devolucion',
-            'estatus',
+            'id_status',
 			'fecha_entregado',
         ],
     ]) ?>

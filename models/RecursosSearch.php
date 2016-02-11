@@ -18,8 +18,8 @@ class RecursosSearch extends Recursos
     public function rules()
     {
         return [
-            [['codigo', 'tipo_recurso', 'total_existente'], 'integer'],
-            [['titulo', 'autor'], 'safe'],
+            [['codigo',  'total_existente'], 'integer'],
+            [['titulo', 'id_tipo_recurso', 'autor'], 'safe'],
         ];
     }
 
@@ -55,13 +55,16 @@ class RecursosSearch extends Recursos
             return $dataProvider;
         }
 
+		$query->joinWith('tipoRecurso');
+		
         $query->andFilterWhere([
             'codigo' => $this->codigo,
-            'tipo_recurso' => $this->tipo_recurso,
+           // 'id_tipo_recurso' => $this->id_tipo_recurso,
             'total_existente' => $this->total_existente,
         ]);
 
         $query->andFilterWhere(['like', 'titulo', $this->titulo])
+			->andFilterWhere(['like', 'tipo_recursos.tipo_recurso', $this->id_tipo_recurso])
             ->andFilterWhere(['like', 'autor', $this->autor]);
 
         return $dataProvider;

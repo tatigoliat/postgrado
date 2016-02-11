@@ -42,10 +42,10 @@ class Status extends \yii\db\ActiveRecord
         ];
     }
 	
+	public function relations(){
+        return array(
+            'usuarios'=>array(self::HAS_MANY, 'Usuarios', 'id_status')
+        );
+    }
 
-
-	/*public function getParentName(){
-		$model=$this->parent;
-		return $model?$model->descripcion_status:'';
-	}*/
 }

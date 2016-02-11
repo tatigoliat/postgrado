@@ -24,14 +24,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'cedula',
             'nombre',
-			'estatus',
-			
-            'departamento',
-            'email:email',
-            //'fecha_suspension',
+			'email',						
+			[
+			   'attribute' => 'id_departamento',
+			   'value'=>'departamento.descripcion',
+			   'options' => ['width' => '70']
+			],
+            //'id_status',
+			[
+			   'attribute' => 'id_status',
+			   'value'=>'status.descripcion_status',
+			   'options' => ['width' => '100']
+			],
+            [
+			   'attribute' => 'fecha_suspension',
+				'format' =>  ['date', 'php:d/m/Y'],
+			   'options' => ['width' => '70']
+			],
 			
             ['class' => 'yii\grid\ActionColumn'],
         ],

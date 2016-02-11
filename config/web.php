@@ -23,11 +23,12 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
+			'useFileTransport' => false,
             'transport' => [
                 'class'      => 'Swift_SmtpTransport',
                 'host'       => 'smtp.gmail.com',
-                'username'   => 'postmaster@localhost',
-                'password'   => '',
+                'username'   => 'yeralmmf@gmail.com',
+                'password'   => 'Yeri-9010',
                 'port'       => '587',
                 'encryption' => 'tls',
             ],

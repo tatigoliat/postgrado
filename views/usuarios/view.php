@@ -30,8 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'cedula',
             'nombre',
-            'estatus',
-            'departamento',
+            'id_status',
+            'id_departamento',
             'email:email',
             'fecha_suspension',
         ],

@@ -41,4 +41,10 @@ class Departamentos extends \yii\db\ActiveRecord
             'descripcion' => 'Descripcion',
         ];
     }
+	
+	public function relations(){
+        return array(
+            'usuarios'=>array(self::HAS_MANY, 'Usuarios', 'id_departamento')
+        );
+    }
 }

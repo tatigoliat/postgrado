@@ -28,9 +28,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'codigo',
             'titulo',
             'autor',
-            'tipo_recurso',
-            'total_existente',
-
+            //'id_tipo_recurso',
+			[
+			   'attribute' => 'id_tipo_recurso',
+			   'value'=>'tipoRecurso.tipo_recurso',
+			   'options' => ['width' => '100']
+			],
+            //'total_existente',
+			//'total_disponible',
+			[
+			   'attribute' => 'total_existente',
+			   'value'=>'total_existente',
+			   'options' => ['width' => '50']
+			],
+			[
+			   'attribute' => 'total_disponible',
+			   'value'=>'total_disponible',
+			   'options' => ['width' => '50']
+			],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

@@ -41,4 +41,10 @@ class TipoRecursos extends \yii\db\ActiveRecord
             'tipo_recurso' => 'Tipo Recurso',
         ];
     }
+	
+	public function relations(){
+        return array(
+            'recursos'=>array(self::HAS_MANY, 'Recursos', 'id_tipo_recurso')
+        );
+    }
 }

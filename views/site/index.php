@@ -21,7 +21,7 @@ $this->title = 'Bienvenido al Control de Prestamos';
 		<?= GridView::widget([
 			'dataProvider' => $dataProvider,
 			'columns' => [
-				'id',
+				/*'id',
 				'cedula',
 				'codigo',
 				[
@@ -40,8 +40,44 @@ $this->title = 'Bienvenido al Control de Prestamos';
 				   'options' => ['width' => '70']
 				],
 				[
-				   'attribute' => 'estatus',
+				   'attribute' => 'id_status',
 				   'options' => ['width' => '70']
+				],*/
+				[
+				   'attribute' => 'id',
+				   'options' => ['width' => '30']
+				],
+
+				[
+				   'attribute' => 'codigo',
+				   'value'=>'recurso.titulo',
+				],
+				
+				[
+				   'label' => 'Usuario',
+				   'attribute' => 'cedula',
+				   'value'=>'usuario.nombre',
+				],
+				[
+				   'attribute' => 'fecha_prestamo',
+					'format' =>  ['date', 'php:d/m/Y'],
+				   'options' => ['width' => '50']
+				],
+				[
+				   'attribute' => 'fecha_devolucion',
+					'format' =>  ['date', 'php:d/m/Y'],
+				   'options' => ['width' => '50']
+				],
+				[
+				   'attribute' => 'fecha_entregado',
+					'format' =>  ['date', 'php:d/m/Y'],
+				   'options' => ['width' => '50']
+				],
+
+				[
+				   'attribute' => 'id_status',
+				   'value'=>'status.descripcion_status',
+				   'options' => ['width' => '120']
 				],
 			],
 		]); ?>

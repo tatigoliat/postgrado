@@ -19,8 +19,8 @@ class UsuariosSearch extends Usuarios
     public function rules()
     {
         return [
-            [['cedula', 'nombre', 'email', 'fecha_suspension'], 'safe'],
-            [['estatus', 'departamento'], 'integer'],
+            [['cedula', 'nombre', 'email', 'fecha_suspension','id_status', 'id_departamento'], 'safe'],
+            //[['id_status', 'id_departamento'], 'integer'],
         ];
     }
 
@@ -56,14 +56,19 @@ class UsuariosSearch extends Usuarios
             return $dataProvider;
         }
 
+		$query->joinWith('departamento');
+		$query->joinWith('status');
+		
         $query->andFilterWhere([
-            'estatus' => $this->estatus,
-            'departamento' => $this->departamento,
+            //'id_status' => $this->id_status,
+            //'id_departamento' => $this->id_departamento,
             'fecha_suspension' => $this->fecha_suspension,
         ]);
 
         $query->andFilterWhere(['like', 'cedula', $this->cedula])
             ->andFilterWhere(['like', 'nombre', $this->nombre])
+			->andFilterWhere(['like', 'departamentos.descripcion', $this->id_departamento])
+			->andFilterWhere(['like', 'status.descripcion_status', $this->id_status])
             ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;

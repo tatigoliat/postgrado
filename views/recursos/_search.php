@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'autor') ?>
 
-    <?= $form->field($model, 'tipo_recurso') ?>
+    <?= $form->field($model, 'id_tipo_recurso') ?>
 
     <?= $form->field($model, 'total_existente') ?>
 
